@@ -1,0 +1,713 @@
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>BC Nummer {{vm.dossier.bc_number}}</h3>
+            </div>
+
+            <div class="alert-view">
+            	<div uib-alert class="alert-danger text-center" close="closeAlert()">Huidige risico classificering<br><i class="fa fa-exclamation-triangle"></i><br>Verhoogd</div>
+            </div>             
+
+            <!-- <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                  	<div class="input-group">
+	                    <input type="text" class="form-control" placeholder="Zoeken...">
+	                    <span class="input-group-btn">
+	                      <button class="btn btn-default" type="button">Go!</button>
+	                    </span>
+                  	</div>
+                </div>
+            </div> -->
+        </div>
+
+		<div class="col-sm-4 invoice-col">
+            <h5>Dossier details</h5>
+          	<p>
+              <br>{{vm.dossier.name}}
+              <br>{{vm.dossier.address}}
+              <br>{{vm.dossier.postcode}} {{vm.dossier.city}}
+              <br>T: {{vm.dossier.telephone}}
+          	</p>         
+        </div>
+
+        <div class="col-sm-8">
+        	<div id="chart_div" class="pull-right"></div>
+        </div>
+
+        <div class="x_content">
+        	<uib-tabset active="vm.activeTab">
+			    <uib-tab index="0">
+			    	<uib-tab-heading>
+			        	Dossier
+			      	</uib-tab-heading>
+			      	<div role="tabpanel" class="tab-pane" aria-labelledby="home-tab">
+
+           				<div class="clearfix"></div>
+		            	<div class="natural-person" ng-if="vm.dossier.type == 0">
+			            	<div class="row">
+			              		<div class="col-md-12 col-sm-12 col-xs-12">
+			                		<div class="x_panel identification">
+			                  			<div class="x_title">
+			                    			<h2><i class="fa fa-user pull-left" style="color:#497CB1"></i> 1. Identificatie</h2>
+			                    			<button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('identification')">ADD COMMENT</button>
+			                    			<button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('identification')">GRAB SCREEN</button>
+			                    			<div class="clearfix"></div>
+			                  			</div>
+			                  
+			                  			<div class="x_content">
+			                    			<p>Bioscoopkaartje: wie ben ik? ubo?</p>
+			                    			<form class="file-upload">
+						                      	<div class="form-group info">
+						                      		<div class="no-files">Click here or drag file to upload.</div>
+						                      		<div class="button upload-button" ngf-select="vm.upload($file, 'identification')">Upload on file select</div>
+						                      	</div>
+			                    			</form>                        
+						                    <ul class="files-list list-group">
+						                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'identification'">
+						                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+						                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+						                      	</li>
+						                    </ul>
+				                  		</div>
+				                	</div>
+				             	</div>
+				            </div>
+            
+				            <div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel source-power">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-money" style="color:#497CB1"></i> 2. Herkomst van vermogen</h2>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('source-power')">ADD COMMENT</button>
+			                    	<button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('source-power')">GRAB SCREEN</button>                    
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Waar komen de liquide middelen vandaan?</p>
+				                    <form class="file-upload">
+				                      <div class="form-group info">
+				                      	<div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'source-power')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'source-power'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>            
+            
+				            <div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel aml">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-arrow-circle-right" style="color:#497CB1"></i> 3. AML / Financering / CAAML</h2>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('aml')">ADD COMMENT</button>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('aml')">GRAB SCREEN</button>
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Beschrijf de AML / Financering / CAAML hier</p>
+				                    <form class="file-upload">
+				                      <div class="form-group info">
+				                        <div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'aml')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'aml'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+            
+				            <div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel raf">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-exclamation-triangle" style="color:#497CB1"></i> 4. RAF</h2>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('raf')">ADD COMMENT</button>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('raf')">GRAB SCREEN</button>                  
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Risk Assessment Form</p>
+				                    <form class="file-upload">
+				                      <div class="form-group info">
+				                        <div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'raf')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'raf'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+          				</div>
+
+          				<div class="corporation" ng-if="vm.dossier.type == 1">
+				            <div class="row">
+			              		<div class="col-md-12 col-sm-12 col-xs-12">
+			                		<div class="x_panel identification">
+			                  			<div class="x_title">
+			                    			<h2><i class="fa fa-user pull-left" style="color:#497CB1"></i> 1. Identificatie</h2>
+			                    			<button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('identification')">ADD COMMENT</button>
+			                    			<button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('identification')">GRAB SCREEN</button>
+			                    			<div class="clearfix"></div>
+			                  			</div>
+			                  
+			                  			<div class="x_content">
+			                    			<p>Bioscoopkaartje: wie ben ik? ubo?</p>
+			                    			<form class="file-upload">
+						                      	<div class="form-group info">
+							                        <div class="no-files">Click here or drag file to upload.</div>
+						                			<div class="button upload-button" ngf-select="vm.upload($file, 'identification')">Upload on file select</div>
+						                      	</div>
+			                    			</form>                        
+						                    <ul class="files-list list-group">
+						                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'identification'">
+						                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+						                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+						                      	</li>
+						                    </ul>
+				                  		</div>
+				                	</div>
+				             	</div>
+				            </div>
+            
+				            <div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel structure">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-sitemap" style="color:#497CB1"></i> 2. Structuur / Organisatie / Fiscaal / BiBob</h2> 
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('structure')">ADD COMMENT</button>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('structure')">GRAB SCREEN</button>
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Uitleg voor Structuur / Organisatie / Fiscaal / BiBob hier</p>
+				                    <form class="file-upload">
+				                      <div class="form-group info">
+				                        <div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'structure')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'structure'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>  
+            
+				           	<div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel activities">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-folder-open-o" style="color:#497CB1"></i> 3. Activiteiten</h2>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('activities')">ADD COMMENT</button>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('activities')">GRAB SCREEN</button>
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Wat zijn de bedrijfsactiviteiten?</p>
+				                    <form class="file-upload" id="corporation-activities-form">
+				                      <div class="form-group info">
+				                        <div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'activities')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'activities'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+            
+				           	<div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel source-power">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-money" style="color:#497CB1"></i> 4. Herkomst van vermogen</h2>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('source-power')">ADD COMMENT</button>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('source-power')">GRAB SCREEN</button>                    
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Waar komen de liquide middelen vandaan?</p>
+				                    <form class="file-upload">
+				                      <div class="form-group info">
+				                        <div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'source-power')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'source-power'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+            
+				           	<div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel aml">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-arrow-circle-right" style="color:#497CB1"></i> 5. AML / Financering / CAAML</h2>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('aml')">ADD COMMENT</button>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('aml')">GRAB SCREEN</button>
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Beschrijf de AML / Financering / CAAML hier</p>
+				                    <form class="file-upload">
+				                      <div class="form-group info">
+				                        <div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'aml')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'aml'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}}</a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+            
+				           	<div class="row">
+				              <div class="col-md-12 col-sm-12 col-xs-12">
+				                <div class="x_panel raf">
+				                  <div class="x_title">
+				                    <h2><i class="fa fa-exclamation-triangle" style="color:#497CB1"></i> 6. RAF</h2>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.addComment('raf')">ADD COMMENT</button>
+				                    <button type="button" class="btn btn-success pull-right" ng-click="vm.grabScreen('raf')">GRAB SCREEN</button>                  
+				                    <div class="clearfix"></div>
+				                  </div>
+				                  <div class="x_content">
+				                    <p>Risk Assessment Form</p>
+				                    <form class="file-upload">
+				                      <div class="form-group info">
+				                        <div class="no-files">Click here or drag file to upload.</div>
+						                <div class="button upload-button" ngf-select="vm.upload($file, 'raf')">Upload on file select</div>
+				                      </div>
+				                    </form>                        
+				                    <ul class="files-list list-group">
+				                      	<li class="list-group-item" ng-repeat="file in vm.dossier.attachments | category:'raf'">
+				                      		<a ng-click="vm.downloadImage(file._id)" class="pull-left download-btn"><i class="fa fa-paperclip"></i> {{file.file_name || 'Untitled.png'}} </a>
+				                      		<span class="pull-right">Uploaded By {{vm.getUser(file.user_id).name}}</span>
+				                      	</li>
+				                    </ul>
+				                  </div>
+				                </div>
+				              </div>
+				            </div>
+				        </div>
+            
+			            <br/>
+			            <div class="text-center">
+			            	<button class="btn btn-warning btn-sm demo3">Verstuur dossier</button>
+			            	<button class="btn btn-primary btn-sm demo3" ng-click="vm.outputPDF()">Output PDF</button>
+			            </div>
+			            <br/>
+                    </div>
+				</uib-tab>
+			    <uib-tab index="1">
+			    	<uib-tab-heading>
+			        	Status
+			      	</uib-tab-heading>
+			      	<div class="x_content" style="background:white;">
+						<div class="clearfix"></div>
+
+            				<div class="natural-person" ng-if="vm.dossier.type == 0">
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel identification" ng-init="identificationComments = (vm.dossier.comments | category:'identification')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-times" style="color:red"></i> 1. Identificatie</h2>      
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  
+					                  <table class="table" style="width:100%;" ng-if="identificationComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in identificationComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="identificationComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel source-power" ng-init="sourcePowerComments = (vm.dossier.comments | category:'source-power')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-money" style="color:green"></i> 2. Herkomst van vermogen</h2>
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="sourcePowerComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in sourcePowerComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="sourcePowerComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>            
+            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel aml" ng-init="amlComments = (vm.dossier.comments | category:'aml')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-arrow-circle-right" style="color:green"></i> 3. AML / Financering / CAAML</h2>					                    
+					                     <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="amlComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in amlComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="amlComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel raf" ng-init="rafComments = (vm.dossier.comments | category:'raf')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-check" style="color:green"></i> 4. RAF</h2>
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="rafComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in rafComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="rafComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+          					</div>
+
+					        <div class="corporation" ng-if="vm.dossier.type == 1">
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel identification" ng-init="identificationComments = (vm.dossier.comments | category:'identification')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-times" style="color:red"></i> 1. Identificatie</h2>      
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  
+					                  <table class="table" style="width:100%;" ng-if="identificationComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in identificationComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="identificationComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+					            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel structure" ng-init="structureComments = (vm.dossier.comments | category:'structure')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-check" style="color:green"></i> 2. Structuur / Organisatie / Fiscaal / BiBob</h2>					                    
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="structureComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in structureComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="structureComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>			
+					            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel activities" ng-init="activitiesComments = (vm.dossier.comments | category:'activities')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-check" style="color:green"></i> 3. Activiteiten</h2>
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="activitiesComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in activitiesComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="activitiesComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+					            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel source-power" ng-init="sourcePowerComments = (vm.dossier.comments | category:'source-power')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-money" style="color:green"></i> 4. Herkomst van vermogen</h2>
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="sourcePowerComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in sourcePowerComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="sourcePowerComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+					            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel aml" ng-init="amlComments = (vm.dossier.comments | category:'aml')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-arrow-circle-right" style="color:green"></i> 5. AML / Financering / CAAML</h2>					                    
+					                     <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="amlComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in amlComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="amlComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+            
+					            <div class="row">
+					              <div class="col-md-12 col-sm-12 col-xs-12">
+					                <div class="x_panel raf" ng-init="rafComments = (vm.dossier.comments | category:'raf')">
+					                  <div class="x_title">
+					                    <h2><i class="fa fa-check" style="color:green"></i> 6. RAF</h2>
+					                    <div class="clearfix"></div>
+					                  </div>
+					                  <table class="table" style="width:100%;" ng-if="rafComments.length > 0">
+					                  	  <tr>
+					                  		 <th>Comment</th>
+					                  		 <th>Toegevoegd door</th>
+					                  		 <th>Datum</th>
+					                  	  </tr>
+					                  	  <tr ng-repeat="comment in rafComments">
+					                  	  	 <td>{{::comment.content}}</td>
+					                  	  	 <td>{{::vm.getUser(comment.user_id).name}}</td>
+					                  	  	 <td>{{::vm.getCommentDate(comment.create_at)}}</td>
+					                  	  </tr>
+					                  </table>
+					                  <div class="x_content" ng-if="rafComments.length == 0">
+					                      <p>Geen comments.</p>
+					                  </div>
+					                </div>
+					              </div>
+					            </div>
+					        </div>
+						</div>
+			    </uib-tab>
+			    <uib-tab index="2">
+				    <uib-tab-heading>
+				        Geschiedenis
+				    </uib-tab-heading>
+			        <div class="x_content" style="background:white;">
+                        <h4>Recente gebeurtenissen</h4>
+                        <!-- end of user messages -->
+                        <ul class="messages">
+                        	<li ng-repeat="history in vm.dossier.histories">
+                        		<img ng-src="{{ vm.getUser(history.user_id).avatar 
+                        		|| 'vendor/images/user.png' }}" class="avatar" alt="Avatar"/>
+                        		<div class="message_date">
+                        			<h3 class="date text-info">{{ vm.getFullDates(history.create_at).getDate() }}</h3>
+                        			<p class="month">{{ vm.monthNames[vm.getFullDates(history.create_at).getMonth()] }}<br/>{{ vm.getFullDates(history.create_at).getFullYear() }}</p>
+                        		</div>
+                        		<div class="message_wrapper">
+                        			<h4 class="heading">{{ vm.getUser(history.user_id).name || 'Systeem' }}</h4>
+                        			<blockquote class="message">{{ vm.getNote(history.user_id, history.attachments, history.status).message }}</blockquote>
+                        			<br />
+                        			<p class="url">
+                        				<a ng-click="$event.stopPropagation();vm.activateTab(history.status);"><i class="fa" ng-class="{'fa-file-o':history.status == 0, 'fa-user':history.status == 1 || history.status == 2, 'fa-comment-o':history.status == 3, 'fa-paperclip':history.status == 4}"></i> {{ vm.getNote(history.user_id, history.attachments, history.status).action }}</a>
+                        			</p>
+                        		</div>
+                        	</li>
+                        </ul>
+                    </div>
+			    </uib-tab>
+			</uib-tabset>            
+        </div>
+    </div>
+</div>
+<!-- /page content -->
+
+<script type="text/ng-template" id="commentModal.html">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">New comment</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="message-text" class="form-control-label">Comment:</label>
+        <textarea mentio 
+            mentio-trigger-char="'@'"
+            mentio-items="$ctrl.users"
+            mentio-template-url="/people-mentions.tpl"
+            mentio-search="$ctrl.searchPeople()"
+            mentio-select="$ctrl.getPeopleText(item)"
+            class="editor form-control"
+            mentio-id="'messageContent'"
+            ng-model="$ctrl.message"
+            ng-trim="false"
+            rows="6"/>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" ng-click="$ctrl.cancel()">Close</button>
+    <button type="button" class="btn btn-success" ng-click="$ctrl.ok()" ng-disabled="!$ctrl.message">Submit comment</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="grabModal.html">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Grab Screen</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="message-text" class="form-control-label">URL:</label>
+        <input class="form-control" name="imageUrl" placeholder="www.example.com" ng-model="$ctrl.imageUrl"/>
+      </div>
+      <div class="form-group">
+        <label for="message-text" class="form-control-label">File Name:</label>
+        <input class="form-control" name="filename" ng-model="$ctrl.fileName"/>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" ng-click="$ctrl.cancel()">Close</button>
+    <button type="button" class="btn btn-success" ng-click="$ctrl.ok()" ng-disabled="!$ctrl.imageUrl || !$ctrl.fileName">Grab Image</button>
+  </div>
+</script>
+
+<script type="text/ng-template" id="/people-mentions.tpl">
+    <ul class="list-group user-search">
+        <li mentio-menu-item="person" ng-repeat="person in items" class="list-group-item">
+            <img ng-src="{{person.avatar || 'vendor/images/user.png'}}" class="user-photo">
+            <span class="text-primary" ng-bind-html="person.username | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
+            <em class="text-muted" ng-bind="person.name"></em>
+        </li>
+    </ul>
+</script>

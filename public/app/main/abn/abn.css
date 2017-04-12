@@ -1,0 +1,72 @@
+.file-upload > div {
+  border: 3px dashed #e5e5e5;
+  width: 100%;
+  height: 100px;
+  position: relative;
+}
+
+.file-upload .upload-button {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.file-upload > div input.import-files {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.file-upload > div .no-files {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  margin-top: 40px;
+  margin-left: calc(50% - 120px);
+}
+
+.files-list li {
+  display: table;
+  width: 100%;
+}
+
+.files-list li img {
+  height: 70px;
+}
+
+.download-btn {
+  cursor: pointer;
+}
+
+.natural-person, .corporation {
+  padding-top: 10px;
+}
+
+.tab-content>.active {
+  display: table;
+  width: 100%;
+}
+
+table{
+  border-collapse: separate !important;
+}
+
+.google-visualization-orgchart-table .google-visualization-orgchart-nodesel {
+  border: 2px solid #b5d9ea;
+  background-color: #edf7ff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#edf7ff), to(#cde7ee));
+  background: -moz-gradient(linear, left top, left bottom, from(#edf7ff), to(#cde7ee));
+  background: gradient(linear, left top, left bottom, from(#edf7ff), to(#cde7ee));
+}
+
+.alert-view {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 230px;
+  margin: auto;
+}

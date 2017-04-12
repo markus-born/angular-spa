@@ -1,0 +1,8 @@
+.message-box {
+	text-align: center;
+	margin-top: 50px;
+}
+
+.message-box > div {
+	display: inline-block;
+}

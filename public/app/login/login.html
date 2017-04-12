@@ -1,0 +1,36 @@
+<div class="login">
+  <a class="hiddenanchor" id="signup"></a>
+  <a class="hiddenanchor" id="signin"></a>
+
+  <div class="message-box">
+    <div class="alert alert-success" ng-if="vm.isLoginSuccess">
+      You are logged in successfully!
+    </div>
+
+    <div class="alert alert-danger" ng-if="vm.isLoginFailed">
+      Invalid username and password!
+    </div>
+  </div>
+
+  <div class="login_wrapper">
+    <div class="animate form login_form">
+      <section>
+        <form name="loginForm" novalidate>
+          <div align="center"> <img src="vendor/images/zon.png" height="200" width="300"/></div>
+          <div>
+            <input type="text" class="form-control" placeholder="Username" name="username" ng-model="vm.user.username" ng-required="true"/>
+          </div>
+          <div>
+            <input type="password" class="form-control" placeholder="Password" name="password" ng-model="vm.user.password" ng-required="true"/>
+          </div>
+          <div align="center">
+            <br/>
+            <input type="submit" class="btn btn-default submit" value="Log in" ng-click="vm.login()" ng-disabled="loginForm.$invalid">
+          </div>
+
+          <div class="clearfix"></div>           
+        </form>
+      </section>
+    </div>
+  </div>
+</div>
